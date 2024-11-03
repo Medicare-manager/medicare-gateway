@@ -13,7 +13,9 @@ public class ConfigurationGateway {
         return builder.routes()
                 .route("medicine", r -> r.path("/medicine/**")
                         .uri("http://localhost:8082/"))
-                        .build();
+                .route("user", r -> r.path("/auth/**")
+                        .uri("http://localhost:8081/"))
+                .build();
     }
 }
 
