@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @RefreshScope
 @Component
 public class AuthenticationFilter implements GatewayFilter {
@@ -29,6 +31,7 @@ public class AuthenticationFilter implements GatewayFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         System.out.println("teste "+ routerValidator.isSecured.test(request));
+        System.out.println("request "+ request);
         if (routerValidator.isSecured.test(request)) {
             if (this.isAuthMissing(request)) {
                 System.out.println("rota não autorizado "+ request);
@@ -56,8 +59,19 @@ public class AuthenticationFilter implements GatewayFilter {
     }
 
     private String getAuthHeader(ServerHttpRequest request) {
-        return request.getHeaders().getOrEmpty("Authorization").get(0);
+        List<String> authHeader = request.getHeaders().get("Authorization");
+        if (authHeader != null && !authHeader.isEmpty()) {
+            // Extrai o token removendo qualquer espaço em branco extra
+            String token = authHeader.get(0).replace("Bearer ", "").trim();
+            return token;
+        }
+        return null;
     }
+
+
+    /*private String getAuthHeader(ServerHttpRequest request) {
+        return request.getHeaders().getOrEmpty("Authorization").get(0);
+    }*/
 
     private boolean isAuthMissing(ServerHttpRequest request) {
         return !request.getHeaders().containsKey("Authorization");
