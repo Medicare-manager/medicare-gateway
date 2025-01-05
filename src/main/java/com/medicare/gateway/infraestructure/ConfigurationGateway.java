@@ -21,6 +21,9 @@ public class ConfigurationGateway {
                 .route("user", r -> r.path("/auth/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:8081/"))
+                .route("email-server", r -> r.path("/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("http://localhost:8083/"))
                 .build();
     }
 }
