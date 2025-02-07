@@ -19,6 +19,7 @@ public class RouterValidator {
             request -> openApiEndpoints
                     .stream()
                     .noneMatch(uri -> request.getURI().getPath().equals(uri)) // Rota privada se não estiver na lista
-                    || "/medicine/testeRotaPriv".equals(request.getURI().getPath()); // A rota "/medicine/testeRotaPriv" é privada
+                    || "/medicine/testeRotaPriv".equals(request.getURI().getPath())
+                    || "/medicine/medicine-register".equals(request.getURI().getPath()); // A rota "medicine/medicine-register" é privada
 }
 
