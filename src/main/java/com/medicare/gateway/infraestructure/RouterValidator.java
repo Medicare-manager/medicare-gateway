@@ -14,12 +14,9 @@ public class RouterValidator {
             "/auth/register", "/auth/login2", "/auth/login", "/medicine/teste"
     );
 
-    // Predicado para verificar se a rota é segura (privada)
     public Predicate<ServerHttpRequest> isSecured =
             request -> openApiEndpoints
                     .stream()
-                    .noneMatch(uri -> request.getURI().getPath().equals(uri)) // Rota privada se não estiver na lista
-                    || "/medicine/testeRotaPriv".equals(request.getURI().getPath())
-                    || "/medicine/medicine-register".equals(request.getURI().getPath()); // A rota "medicine/medicine-register" é privada
+                    .noneMatch(uri -> request.getURI().getPath().equals(uri));
 }
 
